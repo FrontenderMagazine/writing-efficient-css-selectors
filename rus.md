@@ -42,10 +42,8 @@
 
 Важно отметить, хотя ID технически быстрее и лучше, с точки зрения
 производительности, эта разница очень невелика. С помощью CSS Test Creator Стива
-Саудерса можно видеть, что у [селекторов с ID]
-(http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=%23id&body=background%3A+%23CFD&ne=1000)
-и [селекторов с классом],
-(http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=.class&body=background%3A+%23CFD&ne=1000)
+Саудерса можно видеть, что у [селекторов с ID](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=%23id&body=background%3A+%23CFD&ne=1000)
+и [селекторов с классом](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=.class&body=background%3A+%23CFD&ne=1000),
 в действительности, очень незначительная разница во времени перерисовки страницы.
 
 На Firefox 6 под Windows я получил среднее время перерисовки страницы с простым
@@ -56,11 +54,9 @@
 *Разницы в скорости между ID и классом практически не существует.*
 
 Однако, тест селектора по типу (*<a>*), в отличие от класса или ID, выдал
-[гораздо большее время перерисовки страницы]
-(http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=a&body=background%3A+%23CFD&ne=1000).
+[гораздо большее время перерисовки страницы](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=a&body=background%3A+%23CFD&ne=1000).
 
-Тест на серьезно перенасыщенном селекторе с вложенными элементами дал [цифру в районе 440]
-(http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=div+div+div+div+div+div+a&body=background%3A+%23CFD&ne=1000)!
+Тест на серьезно перенасыщенном селекторе с вложенными элементами дал [цифру в районе 440](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=div+div+div+div+div+div+a&body=background%3A+%23CFD&ne=1000)!
 
 Становится очевидным, что разница между ID/классами и типами/вложенными элементами
 достаточно велика… Разницой же между ними самими можно пренебречь.
@@ -83,8 +79,7 @@ ID ‘nav’.
 необходимо.
 
 Чтобы докопаться до сути почему происходит именно так, посмотрите вот это обсуждение
-на [Stack Overflow]
-(http://stackoverflow.com/questions/5797014/css-selectors-parsed-right-to-left-why).
+на [Stack Overflow](http://stackoverflow.com/questions/5797014/css-selectors-parsed-right-to-left-why).
 
 Для повышения производительности браузеру гораздо эффективней начинать с крайнего
 правого элемента (того, к которому браузер _определенно_ применит стили) и затем
