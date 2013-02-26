@@ -53,7 +53,7 @@
 
 *Разницы в скорости между ID и классом практически не существует.*
 
-Однако, тест селектора по типу (*<a>*), в отличие от класса или ID, выдал
+Однако, тест селектора по типу (`<a>`), в отличие от класса или ID, выдал
 [гораздо большее время перерисовки страницы](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=a&body=background%3A+%23CFD&ne=1000).
 
 Тест на серьезно перенасыщенном селекторе с вложенными элементами дал [цифру в районе 440](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=div+div+div+div+div+div+a&body=background%3A+%23CFD&ne=1000)!
