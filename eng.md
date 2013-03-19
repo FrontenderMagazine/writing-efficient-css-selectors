@@ -1,20 +1,31 @@
 Writing efficient CSS selectors
 ===============================
 
-Efficient CSS is not a new topic, nor one that I really need to cover, but it’s something I’m really interested in and have been keeping an eye on more and more since working at Sky.
+Efficient CSS is not a new topic, nor one that I really need to cover, but
+it’s something I’m really interested in and have been keeping an eye on more
+and more since working at Sky.
 
-A lot of people forget, or simply don’t realise, that CSS can be both performant and non-performant. This can be easily forgiven however when you realise just how little you can, err, realise, non-performant CSS.
+A lot of people forget, or simply don’t realise, that CSS can be both
+performant and non-performant. This can be easily forgiven however when you
+realise just how little you can, err, realise, non-performant CSS.
 
-These rules only really apply to high performance websites where speed is a feature, and 1000s of DOM elements can appear on any given page. But best practice is best practice, and it doesn’t matter whether you’re building the next Facebook, or a site for the local decorator, it’s always good to know…
+These rules only really apply to high performance websites where speed is a
+feature, and 1000s of DOM elements can appear on any given page. But best
+practice is best practice, and it doesn’t matter whether you’re building the
+next Facebook, or a site for the local decorator, it’s always good to know…
 
 CSS selectors
 -------------
 
-CSS selectors will not be new to most of us, the more basic selectors are type (e.g. *div*), ID (e.g. *#header*) and class (e.g. *.tweet*) respectively.
+CSS selectors will not be new to most of us, the more basic selectors are type
+(e.g. *div*), ID (e.g. *#header*) and class (e.g. *.tweet*) respectively.
 
-More uncommon ones include basic pseudo-classes (e.g. *:hover*) and more complex CSS3 and ‘regex’ selectors, such as *:first-child* or *[class^="grid-"]*.
+More uncommon ones include basic pseudo-classes (e.g. *:hover*) and more
+complex CSS3 and ‘regex’ selectors, such as *:first-child* or
+*[class^="grid-"]*.
 
-Selectors have an inherent efficiency, and to quote Steve Souders, the order of more to less efficient CSS selectors goes thus:
+Selectors have an inherent efficiency, and to quote Steve Souders, the order
+of more to less efficient CSS selectors goes thus:
 
 - ID, e.g. *#header*
 - Class, e.g. *.promo*
@@ -28,41 +39,66 @@ Selectors have an inherent efficiency, and to quote Steve Souders, the order of 
 
 Quoted from Even Faster Websites by [Steve Souders](http://stevesouders.com/)
 
-It is important to note that, although an ID is technically faster and more performant, it is barely so. Using Steve Souders’ CSS Test Creator we can see that an [ID selector](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=%23id&body=background%3A+%23CFD&ne=1000) and a [class selector](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=.class&body=background%3A+%23CFD&ne=1000) show very little difference in reflow speed.
+It is important to note that, although an ID is technically faster and more
+performant, it is barely so. Using Steve Souders’ CSS Test Creator we can see
+that an [ID selector](http://stevesouders.com/efws/css-
+selectors/csscreate.php?n=1000&sel=%23id&body=background%3A+%23CFD&ne=1000)
+and a [class selector](http://stevesouders.com/efws/css-
+selectors/csscreate.php?n=1000&sel=.class&body=background%3A+%23CFD&ne=1000)
+show very little difference in reflow speed.
 
-In Firefox 6 on a Windows machine I get an average reflow figure of 10.9 for a simple class selector. An ID selector gave a mean of 12.5, so this actually reflowed slower than a class.
+In Firefox 6 on a Windows machine I get an average reflow figure of 10.9 for a
+simple class selector. An ID selector gave a mean of 12.5, so this actually
+reflowed slower than a class.
 
-*The difference in speed between an ID and a class is almost totally irrelevant.*
+* he difference in speed between an ID and a class is almost totally
+irrelevant.*
 
 A test selecting on a type (*<a>*), rather than a class or ID, gave a [much slower reflow](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=a&body=background%3A+%23CFD&ne=1000).
 
 A test on a heavily overqualified descendant selector gave [a figure of around 440](http://stevesouders.com/efws/css-selectors/csscreate.php?n=1000&sel=div+div+div+div+div+div+a&body=background%3A+%23CFD&ne=1000)!
 
-From this we can see that the difference between IDs/classes and types/descendants is fairly huge... The difference between themselves is slight.
+From this we can see that the difference between IDs/classes and
+types/descendants is fairly huge... The difference between themselves is
+slight.
 
-*N.B.* These numbers can vary massively between machine and browser. I strongly encourage you to run/play with your own.
+*N.B.* These numbers can vary massively between machine and browser. I
+strongly encourage you to run/play with your own.
 
 Combining selectors
 -------------------
 
-You can have standalone selectors such as #nav, which will select any element with an ID of ‘nav’, or you can have combined selectors such as #nav a, which will match any anchors within any element with an ID of ‘nav’.
+You can have standalone selectors such as #nav, which will select any element
+with an ID of ‘nav’, or you can have combined selectors such as #nav a, which
+will match any anchors within any element with an ID of ‘nav’.
 
-Now, we read these left-to-right. We see that we’re looking out for #nav and then any a elements inside there. Browsers read these differently; browsers read selectors right-to-left.
+Now  we read these left-to-right. We see that we’re looking out for #nav and
+then any a elements inside there. Browsers read these differently; browsers
+read selectors right-to-left.
 
-Where we see a #nav with an a in it, browsers see an a in a #nav. This subtle difference has a _huge_ impact on selector performance, and is a very valuable thing to learn.
+Where we see a #nav with an a in it, browsers see an a in a #nav. This subtle
+difference has a _huge_ impact on selector performance, and is a very valuable
+thing to learn.
 
 For an in-depth reason as to why they do this see this discussion on [Stack Overflow](http://stackoverflow.com/questions/5797014/css-selectors-parsed-right-to-left-why).
 
-It’s more efficient for a browser to start at the right-most element (the one it _knows_ it wants to style) and work its way back up the DOM tree than it is to start high _up_ the DOM tree and take a journey _down_ that might not even end up at the right-most selector -- also known as the _key_ selector.
+It’s more efficient for a browser to start at the right-most element (the one
+it _knows_ it wants to style) and work its way back up the DOM tree than it is
+to start high _up_ the DOM tree and take a journey _down_ that might not even
+end up at the right-most selector -- also known as the _key_ selector.
 
 This has a very significant impact on the performance of CSS selectors...
 
 The _key_ selector
 ----------------
 
-The key selector, as discussed, is the right-most part of a larger CSS selector. This is what the browser looks for first.
+The key selector, as discussed, is the right-most part of a larger CSS
+selector. This is what the browser looks for first.
 
-Remember back up there we discussed which types of selector are the most performant? Well whichever one of those is the key selector will affect the selector’s performance; when writing efficient CSS it is this key selector that holds the, well, key, to performant matching.
+Remember back up there we discussed which types of selector are the most
+performant? Well whichever one of those is the key selector will affect the
+selector’s performance; when writing efficient CSS it is this key selector
+that holds the, well, key, to performant matching.
 
 A key selector like this:
 
@@ -154,7 +190,8 @@ The short answer is; _probably not_.
 
 The longer answer is; _it depends on the site you’re building_. If you’re working on your next portfolio then go for clean code over CSS selector performance, because you really aren’t likely to notice it.
 
-If you’re building the next Amazon, where microseconds in page speeds do make a difference then maybe, but even then maybe not.
+If you’re building the next Amazon, where microseconds in page speeds do make
+a difference then maybe, but even then maybe not.
 
 Browsers will only ever get better at CSS parsing speeds, even mobile ones. You are very unlikely to ever notice slow CSS selectors on a websites *but*…
 
